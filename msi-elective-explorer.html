@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MSI Elective Explorer</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #F7F6F2;
+      color: #1A1A18;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: white;
+      border-bottom: 1px solid #E2E0D8;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      color: #6B6A65;
+      font-size: 14px;
+    }
+
+    .track-tabs {
+      display: flex;
+      gap: 8px;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
+    }
+
+    .track-tabs button {
+      padding: 8px 20px;
+      border-radius: 999px;
+      border: 1.5px solid #E2E0D8;
+      background: white;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: #6B6A65;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .track-tabs button:hover {
+      border-color: #aaa;
+      color: #1A1A18;
+    }
+
+    .active-bda { background: #E6F1FB !important; color: #0C447C !important; border-color: #378ADD !important; }
+    .active-ux  { background: #EAF3DE !important; color: #27500A !important; border-color: #639922 !important; }
+    .active-ucad { background: #EEEDFE !important; color: #3C3489 !important; border-color: #7F77DD !important; }
+    .active-lakes { background: #FAECE7 !important; color: #712B13 !important; border-color: #D85A30 !important; }
+
+    #track-content {
+      background: white;
+      border: 1px solid #E2E0D8;
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    #track-content h2 {
+      font-size: 20px;
+      margin-bottom: 0.5rem;
+    }
+
+    #track-content h3 {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: #6B6A65;
+      margin: 1.25rem 0 0.75rem;
+    }
+
+    #track-content ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #track-content li {
+      font-size: 14px;
+      padding: 6px 0;
+      border-bottom: 1px solid #F7F6F2;
+    }
+
+    .bar-item {
+      margin-bottom: 10px;
+    }
+
+    .bar-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .bar-track {
+      height: 5px;
+      background: #F7F6F2;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 5px;
+      border-radius: 3px;
+    }
+
+    .fill-bda { background: #378ADD; }
+    .fill-ux { background: #639922; }
+    .fill-ucad { background: #7F77DD; }
+    .fill-lakes { background: #D85A30; }
+
+    .view-nav {
+      display: flex;
+      gap: 6px;
+      margin: 1.5rem 0 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .view-nav button {
+      padding: 8px 18px;
+      border-radius: 999px;
+      border: 1px solid #E2E0D8;
+      background: white;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: #6B6A65;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .view-nav button.active {
+      background: #1A1A18;
+      color: white;
+      border-color: #1A1A18;
+    }
+
+    .view { display: none; }
+    .view.active { display: block; }
+
+    .card {
+      background: white;
+      border: 1px solid #E2E0D8;
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    .card h2 {
+      font-size: 20px;
+      margin-bottom: 0.5rem;
+    }
+
+    .card h3 {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: #6B6A65;
+      margin: 1.25rem 0 0.75rem;
+    }
+
+    .card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .card li {
+      font-size: 14px;
+      padding: 6px 0;
+      border-bottom: 1px solid #F7F6F2;
+    }
+
+    .highlight {
+      padding: 1rem 1.25rem;
+      border-radius: 8px;
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: 1.25rem;
+      border-left: 3px solid;
+    }
+
+    .highlight.bda { background: #E6F1FB; border-color: #378ADD; color: #0C447C; }
+    .highlight.ux  { background: #EAF3DE; border-color: #639922; color: #27500A; }
+    .highlight.ucad { background: #EEEDFE; border-color: #7F77DD; color: #3C3489; }
+    .highlight.lakes { background: #FAECE7; border-color: #D85A30; color: #712B13; }
+
+    footer {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 3rem;
+      font-size: 12px;
+      color: #6B6A65;
+      border-top: 1px solid #E2E0D8;
+      line-height: 1.7;
+    }
+
+    footer a {
+      color: #378ADD;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        gap: 2px;
+        padding: 0.75rem 1rem;
+      }
+
+      header span:first-child {
+        font-size: 11px;
+        color: #6B6A65;
+      }
+
+      header span:last-child {
+        font-size: 15px;
+        font-weight: 600;
+      }
+
+      main {
+        padding: 1rem;
+      }
+
+      h1 {
+        font-size: 18px;
+      }
+
+      .view-nav {
+        gap: 4px;
+      }
+
+      .view-nav button {
+        padding: 6px 12px;
+        font-size: 12px;
+      }
+
+      .track-tabs button {
+        padding: 6px 12px;
+        font-size: 12px;
+      }
+
+      #track-content {
+        padding: 1rem;
+      }
+      .view-nav {
+        flex-wrap: wrap;
+      }
+
+      .view-nav button {
+        flex: 1;
+        text-align: center;
+      }
+    }
+    .tip {
+      margin-top: 1.25rem;
+      padding: 1rem 1.25rem;
+      background: #F7F6F2;
+      border-radius: 8px;
+      font-size: 14px;
+      line-height: 1.7;
+      color: #1A1A18;
+    }
+
+    .tip strong {
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: #6B6A65;
+      margin-bottom: 4px;
+    }
+    #course-filters {
+      display: flex;
+      gap: 6px;
+      margin: 1rem 0;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid #E2E0D8;
+      background: white;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      color: #6B6A65;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .filter-btn.active {
+      background: #1A1A18;
+      color: white;
+      border-color: #1A1A18;
+    }
+
+    .filter-btn.active-bda { background: #E6F1FB; color: #0C447C; border-color: #378ADD; }
+    .filter-btn.active-ux  { background: #EAF3DE; color: #27500A; border-color: #639922; }
+    .filter-btn.active-ucad { background: #EEEDFE; color: #3C3489; border-color: #7F77DD; }
+    .filter-btn.active-lakes { background: #FAECE7; color: #712B13; border-color: #D85A30; }
+
+    #course-search {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #E2E0D8;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      margin-bottom: 1rem;
+      outline: none;
+    }
+
+    #course-search:focus {
+      border-color: #378ADD;
+    }
+
+    .course-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #F7F6F2;
+      gap: 1rem;
+    }
+
+    .course-row-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .course-row-code {
+      font-size: 11px;
+      font-family: monospace;
+      color: #6B6A65;
+    }
+
+    .course-row-name {
+      font-size: 14px;
+      color: #1A1A18;
+    }
+
+    .course-row-tracks {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .track-dot {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+
+    .track-dot.bda { background: #E6F1FB; color: #0C447C; }
+    .track-dot.ux  { background: #EAF3DE; color: #27500A; }
+    .track-dot.ucad { background: #EEEDFE; color: #3C3489; }
+    .track-dot.lakes { background: #FAECE7; color: #712B13; }
+
+    .no-results {
+      font-size: 14px;
+      color: #6B6A65;
+      padding: 1rem 0;
+      text-align: center;
+    }
+    #upload-area {
+      margin: 1.25rem 0;
+    }
+
+    #upload-area input[type="file"] {
+      display: none;
+    }
+
+    #upload-label {
+      display: block;
+      border: 2px dashed #E2E0D8;
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      font-size: 14px;
+      color: #6B6A65;
+      transition: all .15s;
+    }
+
+    #upload-label:hover {
+      border-color: #378ADD;
+      background: #E6F1FB;
+      color: #0C447C;
+    }
+
+    #status-message {
+      font-size: 14px;
+      color: #1A1A18;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      background: #EAF3DE;
+      border-radius: 8px;
+      border-left: 3px solid #639922;
+      color: #27500A;
+    }
+
+    .new-course-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #F7F6F2;
+      font-size: 13px;
+    }
+
+    .new-course-row .badge {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #EAF3DE;
+      color: #27500A;
+    }
+
+    .new-course-row .badge.updated {
+      background: #E6F1FB;
+      color: #0C447C;
+    }
+
+    .export-btn {
+      background: #1A1A18;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 13px;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .export-btn:hover { background: #333; }
+
+    .admin-course-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #F7F6F2;
+      gap: 1rem;
+    }
+
+    .admin-course-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+    }
+
+    .admin-edit-input {
+      font-size: 13px;
+      font-family: 'DM Sans', sans-serif;
+      border: 1.5px solid #378ADD;
+      border-radius: 4px;
+      padding: 3px 8px;
+      width: 100%;
+      outline: none;
+    }
+
+    .edit-name-btn {
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      border: 1px solid #E2E0D8;
+      background: white;
+      cursor: pointer;
+      color: #6B6A65;
+      font-family: 'DM Sans', sans-serif;
+      white-space: nowrap;
+    }
+
+    .edit-name-btn:hover { border-color: #aaa; color: #1A1A18; }
+  </style>
+
+</head>
+<body>
+
+  <header>
+    <span>UMSI Academic Advising</span>
+    <span>MSI Elective Explorer</span>
+  </header>
+
+  <main>
+    <h1>What are students in your pathway actually taking?</h1>
+    <p>This tool summarizes elective patterns from five years of MSI graduating cohorts.</p>
+
+    <div class="view-nav">
+      <button class="active" onclick="switchView('explore', this)">Explore by Pathway</button>
+      <button onclick="switchView('compare', this)">Compare Tracks</button>
+      <button onclick="switchView('outside', this)">Outside UMSI</button>
+      <button onclick="switchView('courses', this)">All Courses</button>
+      <button onclick="switchView('admin', this)">⚙ Admin</button>
+    </div>
+
+    <div id="view-explore" class="view active">
+      <div class="track-tabs">
+        <button onclick="switchTrack('bda')">Big Data Analytics (BDA)</button>
+        <button onclick="switchTrack('ux')">UX Research & Design</button>
+        <button onclick="switchTrack('ucad')">User-Centered Agile Dev (UCAD)</button>
+        <button onclick="switchTrack('lakes')">LAKES</button>
+      </div>
+      <div id="track-content">
+        Click a pathway above to see elective data.
+      </div>
+    </div>
+
+    <div id="view-compare" class="view">
+      <div class="card">
+        <h2>Cross-Track electives</h2>
+        <p>These courses show up in multiple pathways' top picks — taking courses outside your track is common and encouraged.</p>
+        <h3>SI 564 — SQL & Databases</h3>
+        <p>Taken as an elective across 3 of 4 tracks — BDA (~70%), UCAD (~50%), UX (~10%).</p>
+        <h3>SI 511 — Special Topics</h3>
+        <p>Appears in all four tracks — students use it to explore niche areas each term.</p>
+        <h3>SI 504 — Servers, Shell & Git</h3>
+        <p>A technical course that appears even in humanities tracks — UX (~18%), LAKES (~30%).</p>
+        <h3>SI 631 — Agile Software Development</h3>
+        <p>Bridges design and technical tracks — UCAD (~40%), BDA (~18%), UX (~12%).</p>
+        <h3>SI 559 — Intro to AR/VR</h3>
+        <p>Popular across interactive and humanities tracks — UX, UCAD, and LAKES.</p>
+      </div>
+    </div>
+
+    <div id="view-outside" class="view">
+      <div class="card">
+        <h2>Outside UMSI courses</h2>
+        <p>Entrepreneurship courses appear in the top outside picks for every single pathway. Most students fill the majority of elective credits within UMSI — outside courses tend to serve as targeted supplements.</p>
+        <h3>Entrepreneurship & Business — all tracks</h3>
+        <ul>
+          <li>ENTR 500 — Intro to Innovation</li>
+          <li>ENTR 560 — Project Mgmt & Consulting</li>
+          <li>ENTR 550 — Interpersonal Skills</li>
+          <li>MO 512 — Bargaining & Influence</li>
+        </ul>
+        <h3>Engineering & Data Science — especially BDA</h3>
+        <ul>
+          <li>EECS 545 — Machine Learning</li>
+          <li>STATS 503 — Statistical ML</li>
+          <li>ENGR 599 — Special Topics</li>
+        </ul>
+        <h3>Arts & Design — UX & UCAD</h3>
+        <ul>
+          <li>UARTS 560 — ArtsEng Project</li>
+          <li>EDUC 618 — XR for Learning</li>
+          <li>MKT 613 — Consumer Behavior</li>
+        </ul>
+        <h3>Humanities — especially LAKES</h3>
+        <ul>
+          <li>MUSEUMS 498 — Museums & Society</li>
+          <li>ANTHRARC 497 — Museum Anthropology</li>
+          <li>HISTART / MUSICOL courses</li>
+        </ul>
+      </div>
+    </div>
+    <div id="view-courses" class="view">
+      <div class="card">
+        <h2>Course Directory</h2>
+        <p>All SI electives taken by MSI students across 2022–2026. Search by name or code, or filter by track.</p>
+
+        <div id="course-filters">
+          <button class="filter-btn active" onclick="filterCourses('all', this)">All</button>
+          <button class="filter-btn" onclick="filterCourses('bda', this)">BDA</button>
+          <button class="filter-btn" onclick="filterCourses('ux', this)">UX</button>
+          <button class="filter-btn" onclick="filterCourses('ucad', this)">UCAD</button>
+          <button class="filter-btn" onclick="filterCourses('lakes', this)">LAKES</button>
+        </div>
+
+        <input type="text" id="course-search" placeholder="Search by course name or code..." oninput="filterCourses(currentFilter)">
+
+        <div id="course-list"></div>
+      </div>
+    </div>
+    <div id="view-admin" class="view">
+      <div class="card">
+        <h2>Admin Panel</h2>
+        <p>Upload a new cohort CSV to update the course directory. The file should follow the same format as the 2025–2026 registrar export, with an <strong>Acad Plan Descr</strong> column for track and <strong>Subject</strong> + <strong>Catalog Nbr</strong> columns for course codes.</p>
+
+        <div id="upload-area">
+          <input type="file" id="csv-upload" accept=".csv" onchange="handleCSV(this.files[0])">
+          <label for="csv-upload" id="upload-label">
+            <div id="upload-text">📂 Click to upload CSV or drag and drop</div>
+          </label>
+        </div>
+
+        <div id="upload-status" style="display:none">
+          <div id="status-message"></div>
+          <div id="new-courses-preview"></div>
+          <button class="export-btn" onclick="exportUpdatedArray()">Copy updated allCourses array</button>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:1rem">
+        <h2>Edit course names</h2>
+        <p>Fix any abbreviated or incorrect course names in the directory. Changes apply immediately.</p>
+        <input type="text" id="admin-search" placeholder="Search for a course to edit..." oninput="renderAdminCourses()" style="width:100%;padding:8px 12px;border:1px solid #E2E0D8;border-radius:8px;font-size:14px;font-family:'DM Sans',sans-serif;margin:1rem 0;outline:none">
+        <div id="admin-course-list"></div>
+        <button class="export-btn" style="margin-top:1rem" onclick="exportUpdatedArray()">Copy updated allCourses array</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>Percentages are approximate averages across 2022–2026 MSI graduating cohorts. Course availability changes each semester — always confirm your selections with an academic advisor.</p>
+  </footer>
+
+  <script>
+    function switchTrack(track) {
+      document.querySelectorAll('.track-tabs button').forEach(b => b.className = '');
+      document.querySelector(`button[onclick="switchTrack('${track}')"]`).className = 'active-' + track;
+
+    // TO ADD A NEW TRACK:
+    // 1. Add a new entry below following the same structure as bda/ux/ucad/lakes
+    // 2. Add a color scheme in the CSS for .active-newtrack, .fill-newtrack, .track-dot.newtrack
+    // 3. Add a button in the HTML track-tabs div: <button onclick="switchTrack('newtrack')">Name</button>
+    // 4. Add a filter button in the course-filters div
+    // 5. Update detectTrack() below to recognize the new pathway name from the registrar CSV
+    // 6. Update TRACK_REQUIRED below with the new track's required course numbers
+    // ──────────
+      const tracks = {
+        bda: {
+          title: 'Big Data Analytics',
+          highlight: 'SI 564 SQL & Databases has been taken by over 70% of BDA students every year since 2022 — it\'s become an unofficial requirement for the track.',
+          desc: 'Tightly clustered around data and database skills. SQL has become near-universal — over 70% of BDA students take it each year.',
+          tip: 'If you\'re in BDA and haven\'t looked at SI 664 yet, it pairs really well with SI 564 — most students take both. And if you\'re curious about design, you\'re not alone — a growing number of BDA students are picking up SI 539 as an elective.',
+          electives: [
+            { name: 'SI 564 — SQL & Databases', pct: 72 },
+            { name: 'SI 664 — Database Application Design', pct: 57 },
+            { name: 'SI 644 — Advanced SQL & Databases', pct: 35 },
+            { name: 'SI 539 — Web Design: Responsiveness & Accessibility', pct: 30 },
+            { name: 'SI 563 — Game Theory', pct: 22 },
+            { name: 'SI 649 — Information Visualization', pct: 20 },
+            { name: 'SI 511 — Special Topics', pct: 18 },
+          ],
+          outside: ['ENTR 500 — Intro to Innovation', 'EECS 545 — Machine Learning', 'STATS 503 — Statistical ML', 'ENTR 560 — Project Mgmt & Consulting']
+        },
+        ux: {
+          title: 'UX Research & Design',
+          highlight: 'UX is the largest and most exploratory track — students here are the most likely of any pathway to take courses outside UMSI.',
+          desc: 'The largest and most exploratory track. UX students spread across a wide range of electives and are the most likely to take courses outside UMSI.',
+          tip: 'UX students have a wide range of interests — if you\'re in UX, look through the electives taken by past students in all tracks, not just UX. For example, SI 564 SQL & Databases is popular across multiple tracks, and SI 631 Agile Software Development is a common pick for both UX and UCAD students.',
+          electives: [
+            { name: 'SI 511 — Special Topics', pct: 62 },
+            { name: 'SI 611 — Special Topics in Information', pct: 42 },
+            { name: 'SI 594 — Automotive UX', pct: 30 },
+            { name: 'SI 504 — Servers, Shell & Git', pct: 20 },
+            { name: 'SI 538 — Citizen Interaction Design', pct: 16 },
+            { name: 'SI 564 — SQL & Databases', pct: 12 },
+            { name: 'SI 579 — Building Interactive Applications', pct: 12 },
+          ],
+          outside: ['ENTR 500 — Intro to Innovation', 'ENTR 560 — Project Mgmt & Consulting', 'ENTR 550 — Interpersonal Skills', 'TO/IOE 548 — Integrated Product Dev']
+        },
+        ucad: {
+          title: 'User-Centered Agile Development',
+          highlight: 'UCAD has the most eclectic elective profile of any track — students blend SQL, agile development, programming, and AR/VR into very individualized plans.',
+          desc: 'The most eclectic elective profile — a blend of technical, creative, and interdisciplinary picks. Note: small cohort, so read these as directional.',
+          tip: 'UCAD is a small cohort, which means you have more flexibility than most. Use that to your advantage — students here build some of the most individualized plans in the program. Talk to your advisor early about which selectives to prioritize. Past UCAD students have combined technical skills with creative design — look for courses that bridge these areas, like SI 564 SQL & Databases or SI 631 Agile Software Development.',
+          electives: [
+            { name: 'SI 564 — SQL & Databases', pct: 50 },
+            { name: 'SI 631 — Agile Software Development', pct: 46 },
+            { name: 'SI 511 — Special Topics', pct: 44 },
+            { name: 'SI 507 — Intermediate Programming', pct: 44 },
+            { name: 'SI 679 — Back-end Development', pct: 38 },
+            { name: 'SI 559 — Intro to AR/VR', pct: 30 },
+            { name: 'SI 658 — Information Architecture', pct: 28 },
+          ],
+          outside: ['ENTR 560 — Project Mgmt & Consulting', 'ENTR 599 — Special Topics', 'UARTS 560 — ArtsEng Project', 'EDUC courses — Educational Technology']
+        },
+        lakes: {
+          title: 'LAKES',
+          highlight: 'LAKES is the most distinct track in the program — but nearly 30% of students still take SI 504 Servers, Shell & Git, showing growing interest in technical foundations.',
+          desc: 'The most distinct track — electives reflect a strong humanities and archives foundation, with growing interest in technical and accessibility courses.',
+          tip: 'LAKES students sometimes feel like the odd ones out in a tech-heavy school, but the data shows you\'re actively supplementing with technical skills — and that makes you more versatile. SI 504 and SI 519 are great early picks if you haven\'t taken them yet.',
+          electives: [
+            { name: 'SI 504 — Servers, Shell & Git', pct: 30 },
+            { name: 'SI 519 — Intellectual Property & Information Law', pct: 30 },
+            { name: 'SI 552 — Introduction to Accessibility', pct: 28 },
+            { name: 'SI 559 — Intro to AR/VR', pct: 25 },
+            { name: 'SI 529 — Online Communities', pct: 16 },
+            { name: 'SI 511 — Special Topics', pct: 14 },
+            { name: 'SI 540 — Privacy in Information Technology', pct: 12 },
+          ],
+          outside: ['ENTR 500 — Intro to Innovation', 'MUSEUMS 498 — Museums & Society', 'ANTHRARC 497 — Museum Anthropology', 'HISTART / MUSICOL courses']
+        }
+      };
+
+      const d = tracks[track];
+
+      let barsHTML = d.electives.map(e => `
+        <div class="bar-item">
+          <div class="bar-meta">
+            <span>${e.name}</span>
+            <span>~${e.pct}%</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill fill-${track}" style="width:${e.pct}%"></div>
+          </div>
+        </div>
+      `).join('');
+
+      let outsideHTML = d.outside.map(o => `<li>${o}</li>`).join('');
+
+      document.getElementById('track-content').innerHTML = `
+        <h2>${d.title}</h2>
+        <div class="highlight ${track}">${d.highlight}</div>
+        <p>${d.desc}</p>
+        <h3>Popular SI Electives</h3>
+        ${barsHTML}
+        <h3>Popular Outside UMSI</h3>
+        <ul>${outsideHTML}</ul>
+        <div class="tip"><strong>Peer advisor tip</strong>${d.tip}</div>
+      `;
+    }
+
+    function switchView(view, btn) {
+        if (view === 'admin') {
+        const password = prompt('Enter admin password:');
+        if (password !== 'goblue!') {
+          alert('Incorrect password.');
+          return;
+        }
+      }
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.querySelectorAll('.view-nav button').forEach(b => b.classList.remove('active'));
+      document.getElementById('view-' + view).classList.add('active');
+      btn.classList.add('active');
+      if (view === 'admin') renderAdminCourses();
+    }
+    const allCourses = [
+      { code: 'SI 311', name: 'Special Topics in Information', tracks: ['ucad', 'ux'] },
+      { code: 'SI 425', name: 'Introduction to User Modeling', tracks: ['ux'] },
+      { code: 'SI 500', name: 'Information in Social Systems', tracks: ['bda'] },
+      { code: 'SI 504', name: 'Servers, Shell & Git', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 507', name: 'Intermediate Programming', tracks: ['lakes', 'ucad', 'ux'] },
+      { code: 'SI 508', name: 'Intensive Information Programming', tracks: ['bda'] },
+      { code: 'SI 510', name: 'Information Ethics', tracks: ['bda', 'ucad', 'ux'] },
+      { code: 'SI 511', name: 'Special Topics', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 512', name: 'How to Change the Internet', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 515', name: 'Special Topics', tracks: ['ucad', 'ux'] },
+      { code: 'SI 519', name: 'Intellectual Property & Information Law', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 520', name: 'Graphic Design & Visual Communications', tracks: ['bda', 'lakes', 'ucad'] },
+      { code: 'SI 521', name: 'Advanced Psychoacoustics', tracks: ['ux'] },
+      { code: 'SI 529', name: 'Online Communities', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 530', name: 'Principles in Management', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 534', name: 'Theories of Social Influence', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 536', name: 'Introduction to Urban Informatics', tracks: ['bda', 'ux'] },
+      { code: 'SI 537', name: 'Crisis Informatics', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 538', name: 'Citizen Interaction Design', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 539', name: 'Web Design: Responsiveness & Accessibility', tracks: ['bda', 'lakes'] },
+      { code: 'SI 540', name: 'Privacy in Information Technology', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 542', name: 'Introduction to Health Informatics', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 544', name: 'Introduction to Statistics & Data Analysis', tracks: ['lakes', 'ucad', 'ux'] },
+      { code: 'SI 547', name: 'Engaging with Communities', tracks: ['ucad', 'ux'] },
+      { code: 'SI 548', name: 'Principles of Software Design', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 549', name: 'Transformative Learning & Teaching with Technology', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 552', name: 'Introduction to Accessibility', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 554', name: 'Consumer Health Informatics', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 559', name: 'Intro to AR/VR Application Design', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 561', name: 'Natural Language Processing', tracks: ['bda'] },
+      { code: 'SI 563', name: 'Game Theory', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 564', name: 'SQL & Databases', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 565', name: 'Special Topics', tracks: ['bda'] },
+      { code: 'SI 568', name: 'Becoming a Data Scientist', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 569', name: 'Creating XR Experiences', tracks: ['ucad', 'ux'] },
+      { code: 'SI 579', name: 'Building Interactive Applications', tracks: ['bda', 'lakes', 'ux'] },
+      { code: 'SI 580', name: 'Records & Archives', tracks: ['bda', 'ucad', 'ux'] },
+      { code: 'SI 581', name: 'Preserving Information Resources in a Digital Age', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 582', name: 'Introduction to Interaction Design', tracks: ['bda', 'lakes'] },
+      { code: 'SI 583', name: 'Managing Accountability Through Recordkeeping', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 585', name: 'Scholarly Communication', tracks: ['lakes'] },
+      { code: 'SI 588', name: 'Principles of User Experience', tracks: ['bda', 'lakes'] },
+      { code: 'SI 591', name: 'Humanitarian Innovation', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 594', name: 'Automotive User Experience', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 602', name: 'Math for Applied Data Science', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 605', name: 'Interdisciplinary Problem Solving', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 608', name: 'Networks', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 610', name: 'Digital Studies Seminar', tracks: ['bda', 'lakes', 'ux'] },
+      { code: 'SI 611', name: 'Special Topics in Information', tracks: ['bda', 'ucad', 'ux'] },
+      { code: 'SI 612', name: 'IoT Interaction Design', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 616', name: 'Advanced Topics in Graphic Design & Communication', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 617', name: 'Choice Architecture', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 618', name: 'Data Manipulation & Analysis', tracks: ['lakes', 'ucad', 'ux'] },
+      { code: 'SI 620', name: 'Collection Development & Management', tracks: ['lakes'] },
+      { code: 'SI 622', name: 'Usability Evaluation & Needs Assessment', tracks: ['bda', 'lakes'] },
+      { code: 'SI 623', name: 'Research Methods for Information Professionals', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 624', name: 'Health Data Analysis', tracks: ['bda', 'ux'] },
+      { code: 'SI 626', name: 'Managing Nonprofit Libraries', tracks: ['bda', 'lakes', 'ux'] },
+      { code: 'SI 627', name: 'Managing the IT Organization', tracks: ['bda', 'ucad', 'ux'] },
+      { code: 'SI 630', name: 'Natural Language Processing: Algorithms & People', tracks: ['bda', 'ucad', 'ux'] },
+      { code: 'SI 631', name: 'Agile Software Development', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 632', name: 'Appraisal & Collection Development', tracks: ['lakes'] },
+      { code: 'SI 633', name: 'Assessment in Cultural Institutions', tracks: ['lakes', 'ux'] },
+      { code: 'SI 634', name: 'Applied Platform Configuration', tracks: ['lakes'] },
+      { code: 'SI 635', name: 'CMS & Web Frameworks', tracks: ['lakes'] },
+      { code: 'SI 639', name: 'Web Archiving', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 643', name: 'Instructional Skills for Information Professionals', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 644', name: 'Advanced SQL & Databases', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 646', name: 'Information Economics', tracks: ['bda', 'ucad', 'ux'] },
+      { code: 'SI 647', name: 'Information Resources & Services', tracks: ['ux'] },
+      { code: 'SI 648', name: 'Evaluation Methods in Health Informatics', tracks: ['bda', 'ux'] },
+      { code: 'SI 649', name: 'Information Visualization', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 650', name: 'Information Retrieval', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 652', name: 'Incentives & Strategic Behavior', tracks: ['bda', 'ucad'] },
+      { code: 'SI 657', name: 'Information Technology & Inequality', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 658', name: 'Information Architecture', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 659', name: 'Developing AR/VR Experiences', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 660', name: 'Experimental Social Computing Systems', tracks: ['ux'] },
+      { code: 'SI 661', name: 'Management in Health Informatics', tracks: ['bda', 'lakes', 'ux'] },
+      { code: 'SI 664', name: 'Database Application Design', tracks: ['bda', 'lakes', 'ux'] },
+      { code: 'SI 666', name: 'Organization of Information Resources', tracks: ['bda', 'ux'] },
+      { code: 'SI 667', name: 'Digital Curation', tracks: ['bda', 'ucad', 'ux'] },
+      { code: 'SI 669', name: 'Developing Mobile Experiences', tracks: ['bda', 'lakes', 'ux'] },
+      { code: 'SI 670', name: 'Applied Machine Learning', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 671', name: 'Data Mining', tracks: ['ucad', 'ux'] },
+      { code: 'SI 675', name: 'Digitization', tracks: ['lakes'] },
+      { code: 'SI 676', name: 'Networked Information Services', tracks: ['ucad'] },
+      { code: 'SI 678', name: 'Preserving Sound & Motion', tracks: ['lakes'] },
+      { code: 'SI 679', name: 'Back-end Development for Full-Stack Applications', tracks: ['bda', 'ucad', 'ux'] },
+      { code: 'SI 682', name: 'Advanced User Research in the Field', tracks: ['bda', 'ucad', 'ux'] },
+      { code: 'SI 684', name: 'Designing Consumer-Health Technologies', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 686', name: 'User-Generated Content', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 688', name: 'Immersive Applied Projects in the Social Sector', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 691', name: 'Independent Study', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
+      { code: 'SI 702', name: 'Seminar in Organizational Studies', tracks: ['lakes', 'ux'] },
+      { code: 'SI 719', name: 'Science, Technology & Medicine', tracks: ['bda', 'ux'] },
+      { code: 'SI 724', name: 'Special Topics', tracks: ['ux'] },
+      { code: 'SI 755', name: 'Special Topics', tracks: ['bda'] },
+    ];
+
+    let currentFilter = 'all';
+
+    function filterCourses(filter, btn) {
+      if (btn) {
+        currentFilter = filter;
+        document.querySelectorAll('.filter-btn').forEach(b => {
+          b.className = 'filter-btn';
+        });
+        if (filter === 'all') {
+          btn.classList.add('active');
+        } else {
+          btn.classList.add('active-' + filter);
+        }
+      }
+
+      const search = document.getElementById('course-search').value.toLowerCase();
+      const list = document.getElementById('course-list');
+
+      const filtered = allCourses.filter(c => {
+        const matchesTrack = currentFilter === 'all' || c.tracks.includes(currentFilter);
+        const matchesSearch = c.code.toLowerCase().includes(search) || c.name.toLowerCase().includes(search);
+        return matchesTrack && matchesSearch;
+      });
+
+      filtered.sort((a, b) => a.code.localeCompare(b.code));
+
+      if (filtered.length === 0) {
+        list.innerHTML = '<div class="no-results">No courses found.</div>';
+        return;
+      }
+
+      list.innerHTML = filtered.map(c => `
+        <div class="course-row">
+          <div class="course-row-left">
+            <span class="course-row-code">${c.code}</span>
+            <span class="course-row-name">${c.name}</span>
+          </div>
+          <div class="course-row-tracks">
+            ${c.tracks.map(t => `<span class="track-dot ${t}">${t.toUpperCase()}</span>`).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    filterCourses('all');
+    // Track detection from Acad Plan Descr
+    // ── TO ADD A NEW TRACK: add a new condition here ──────────────
+    // Check the registrar CSV's "Acad Plan Descr" column for exact wording
+    function detectTrack(planDescr) {
+      if (!planDescr) return null;
+      const p = planDescr.toLowerCase();
+      if (p.includes('big data')) return 'bda';
+      if (p.includes('user experience')) return 'ux';
+      if (p.includes('agile')) return 'ucad';
+      if (p.includes('connect') || p.includes('digital curation') ||
+          p.includes('managing') || p.includes('sustain') ||
+          p.includes('library') || p.includes('lakes')) return 'lakes';
+      return null;
+    }
+
+    // Courses to always exclude
+    const ALWAYS_EXCLUDE = new Set([
+      '500','501','505','506','681','690','699','697','698'
+    ]);
+
+    // Required courses per track (excluded from elective analysis)
+    // ── TO ADD A NEW TRACK: add required course numbers here ──────
+    // These courses will be excluded from the elective analysis
+    const TRACK_REQUIRED = {
+      bda:   new Set(['507','544','568','602','618','670','671']),
+      ux:    new Set(['520','539','582','588','622']),
+      ucad:  new Set(['579','664','669','539','582','588','622']),
+      lakes: new Set(['510','547','566','666','667','676','580','647'])
+    };
+
+    function handleCSV(file) {
+      if (!file) return;
+      document.getElementById('upload-text').textContent = '⏳ Reading ' + file.name + '...';
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const text = e.target.result;
+        const lines = text.split('\n');
+        const headers = lines[0].split(',').map(h => h.trim().replace(/"/g,''));
+
+        // Find column indices
+        const subjectIdx = headers.findIndex(h => h === 'Subject');
+        const catalogIdx = headers.findIndex(h => h.includes('Catalog'));
+        const planIdx    = headers.findIndex(h => h.includes('Acad Plan Descr'));
+        const descrIdx   = headers.findIndex(h => h.includes('Crse Descr') || h.includes('Crse_Descr'));
+
+        if (subjectIdx === -1 || catalogIdx === -1 || planIdx === -1) {
+          document.getElementById('upload-text').textContent = '❌ Could not read file — make sure it has Subject, Catalog Nbr, and Acad Plan Descr columns.';
+          return;
+        }
+
+        // Parse rows
+        const newCourseMap = {};
+        for (let i = 1; i < lines.length; i++) {
+          const cols = lines[i].split(',').map(c => c.trim().replace(/"/g,''));
+          if (cols.length < 3) continue;
+
+          const subject = cols[subjectIdx];
+          const catalog = cols[catalogIdx];
+          const plan    = cols[planIdx];
+          const descr   = descrIdx > -1 ? cols[descrIdx] : '';
+
+          if (subject !== 'SI') continue;
+          if (ALWAYS_EXCLUDE.has(catalog)) continue;
+
+          const track = detectTrack(plan);
+          if (!track) continue;
+          if (TRACK_REQUIRED[track] && TRACK_REQUIRED[track].has(catalog)) continue;
+
+          const code = 'SI ' + catalog;
+          if (!newCourseMap[code]) newCourseMap[code] = { name: descr, tracks: new Set() };
+          newCourseMap[code].tracks.add(track);
+        }
+
+        // Merge with existing allCourses
+        let addedCount = 0;
+        let updatedCount = 0;
+        const changes = [];
+
+        for (const [code, info] of Object.entries(newCourseMap)) {
+          const existing = allCourses.find(c => c.code === code);
+          const newTracks = [...info.tracks];
+
+          if (!existing) {
+            // Brand new course
+            allCourses.push({ code, name: info.name || code, tracks: newTracks });
+            addedCount++;
+            changes.push({ code, name: info.name || code, type: 'new', tracks: newTracks });
+          } else {
+            // Check if any new tracks to add
+            const added = [];
+            newTracks.forEach(t => {
+              if (!existing.tracks.includes(t)) {
+                existing.tracks.push(t);
+                existing.tracks.sort();
+                added.push(t);
+              }
+            });
+            if (added.length > 0) {
+              updatedCount++;
+              changes.push({ code, name: existing.name, type: 'updated', tracks: added });
+            }
+          }
+        }
+
+        // Sort allCourses by course number
+        allCourses.sort((a, b) => parseInt(a.code.split(' ')[1]) - parseInt(b.code.split(' ')[1]));
+
+        // Show results
+        document.getElementById('upload-text').textContent = '✅ ' + file.name + ' uploaded successfully';
+        document.getElementById('upload-status').style.display = 'block';
+        document.getElementById('status-message').textContent =
+          `Found ${Object.keys(newCourseMap).length} electives. Added ${addedCount} new courses, updated tracks for ${updatedCount} existing courses.`;
+
+        let previewHTML = '';
+        if (changes.length > 0) {
+          previewHTML = '<div style="margin-top:1rem"><div class="section-label">Changes from this upload</div>';
+          changes.forEach(c => {
+            previewHTML += `<div class="new-course-row">
+              <span>${c.code} — ${c.name}</span>
+              <span class="badge ${c.type}">${c.type === 'new' ? '+ new' : '+ ' + c.tracks.join(', ')}</span>
+            </div>`;
+          });
+          previewHTML += '</div>';
+        } else {
+          previewHTML = '<div style="font-size:14px;color:#6B6A65;margin-top:1rem">No new courses or track changes found — the directory is already up to date.</div>';
+        }
+        document.getElementById('new-courses-preview').innerHTML = previewHTML;
+
+        // Re-render course list
+        renderAdminCourses();
+        filterCourses(currentFilter);
+      };
+      reader.readAsText(file);
+    }
+
+    function renderAdminCourses() {
+      const search = (document.getElementById('admin-search')?.value || '').toLowerCase();
+      const list = document.getElementById('admin-course-list');
+      if (!list) return;
+
+      const filtered = allCourses.filter(c =>
+        c.code.toLowerCase().includes(search) ||
+        c.name.toLowerCase().includes(search)
+      );
+
+      list.innerHTML = filtered.map(c => `
+        <div class="admin-course-row">
+          <div class="admin-course-left">
+            <span style="font-size:11px;font-family:monospace;color:#6B6A65">${c.code}</span>
+            <span id="name-${c.code.replace(' ','-')}" style="font-size:13px">${c.name}</span>
+          </div>
+          <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;max-width:200px">
+            ${c.tracks.map(t => `<span class="track-dot ${t}">${t.toUpperCase()}</span>`).join('')}
+          </div>
+          <button class="edit-name-btn" onclick="editCourseName('${c.code}')">Edit</button>
+        </div>
+      `).join('');
+    }
+
+    function editCourseName(code) {
+      const course = allCourses.find(c => c.code === code);
+      if (!course) return;
+      const safeId = code.replace(' ', '-');
+      const span = document.getElementById('name-' + safeId);
+      if (!span) return;
+
+      const input = document.createElement('input');
+      input.className = 'admin-edit-input';
+      input.value = course.name;
+      span.replaceWith(input);
+      input.focus();
+      input.select();
+
+      function save() {
+        const newName = input.value.trim() || course.name;
+        course.name = newName;
+        renderAdminCourses();
+        filterCourses(currentFilter);
+      }
+
+      input.addEventListener('keydown', e => {
+        if (e.key === 'Enter') save();
+        if (e.key === 'Escape') renderAdminCourses();
+      });
+      input.addEventListener('blur', save);
+    }
+
+    function exportUpdatedArray() {
+      const lines = allCourses.map(c => {
+        const tracks = c.tracks.map(t => `'${t}'`).join(', ');
+        const name = c.name.replace(/'/g, "\\'");
+        return `  { code: '${c.code}', name: '${name}', tracks: [${tracks}] },`;
+      });
+      const text = 'const allCourses = [\n' + lines.join('\n') + '\n];';
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Copied! Paste it into your HTML file to save changes permanently.');
+      });
+    }
+
+  </script>
+
+</body>
+</html>
