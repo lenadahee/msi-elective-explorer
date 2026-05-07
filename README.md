@@ -1,7 +1,8 @@
 ## **MSI Elective Explorer**
 
-### **Current Version Built By:** Lena Choi, MSI Peer Advisor 2025-2026
+## **Current Version Built By:** Lena Choi, MSI Peer Advisor 2025-2026
 **Last Updated:** May 2026
+
 **Contact:** lenachoi@umich.edu // choi.lena98@gmail.com
 
 ## **Purpose**
