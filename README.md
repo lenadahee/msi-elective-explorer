@@ -1,4 +1,5 @@
 ## **MSI Elective Explorer**
+*Live Tool:* [MSI Elective Explorer](https://msi-elective-explorer.netlify.app)
 
 ## **Current Version Built By:** Lena Choi, MSI Peer Advisor 2025-2026
 **Last Updated:** May 2026
