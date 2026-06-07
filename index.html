@@ -396,7 +396,7 @@
 
   <main>
     <h1>What are students in your pathway actually taking?</h1>
-    <p>This tool summarizes elective patterns from five years of MSI graduating cohorts.</p>
+    <p>This tool summarizes elective patterns from five MSI graduating cohorts (Winter 2022 – Winter 2026). Percentages represent the share of students in each pathway who took that course.</p>
 
     <div class="view-nav">
       <button class="active" onclick="switchView('explore', this)">Explore by Pathway</button>
@@ -483,26 +483,12 @@
         <div id="course-list"></div>
       </div>
     </div>
-        <div id="upload-status" style="display:none">
-          <div id="status-message"></div>
-          <div id="new-courses-preview"></div>
-          <button class="export-btn" onclick="exportUpdatedArray()">Copy updated allCourses array</button>
-        </div>
-      </div>
 
-      <div class="card" style="margin-top:1rem">
-        <h2>Edit course names</h2>
-        <p>Fix any abbreviated or incorrect course names in the directory. Changes apply immediately.</p>
-        <input type="text" id="admin-search" placeholder="Search for a course to edit..." oninput="renderAdminCourses()" style="width:100%;padding:8px 12px;border:1px solid #E2E0D8;border-radius:8px;font-size:14px;font-family:'DM Sans',sans-serif;margin:1rem 0;outline:none">
-        <div id="admin-course-list"></div>
-        <button class="export-btn" style="margin-top:1rem" onclick="exportUpdatedArray()">Copy updated allCourses array</button>
-      </div>
-    </div>
   </main>
 
   <footer>
-    <p>Percentages are approximate averages across 2022–2026 MSI graduating cohorts. Course availability changes each semester — always confirm your selections with an academic advisor.</p>
-    <p style="margin-top: 6px;">Last updated: May 2026</p>
+    <p>Percentages are averages across five MSI graduating cohorts (Winter 2022 – Winter 2026). Courses with fewer years of data are noted as directional. Course availability changes each semester — always confirm your selections with an academic advisor.</p>
+    <p style="margin-top: 6px;">Last updated: June 2026</p>
   </footer>
 
   <script>
@@ -521,67 +507,67 @@
       const tracks = {
         bda: {
           title: 'Big Data Analytics',
-          highlight: 'SI 564 SQL & Databases has been taken by over 70% of BDA students every year since 2022 — it\'s become an unofficial requirement for the track.',
-          desc: 'Tightly clustered around data and database skills. SQL has become near-universal — over 70% of BDA students take it each year.',
-          tip: 'If you\'re in BDA and haven\'t looked at SI 664 yet, it pairs really well with SI 564 — most students take both. And if you\'re curious about design, you\'re not alone — a growing number of BDA students are picking up SI 539 as an elective.',
+          highlight: 'SI 564 SQL & Databases has been taken by ~69% of BDA students across all five graduating cohorts — it\'s the closest thing to an unofficial requirement for the track.',
+          desc: 'Tightly clustered around data and database skills. SQL is near-universal, and machine learning, visualization, and information retrieval courses round out most BDA elective plans.',
+          tip: 'SI 564 and SI 664 are taken together by the majority of BDA students — if you haven\'t planned for both, do that early. SI 670 Applied Machine Learning and SI 649 Information Visualization are also strong picks that show up consistently across cohorts.',
           electives: [
-            { name: 'SI 564 — SQL & Databases', pct: 72 },
-            { name: 'SI 664 — Database Application Design', pct: 57 },
-            { name: 'SI 644 — Advanced SQL & Databases', pct: 35 },
-            { name: 'SI 539 — Web Design: Responsiveness & Accessibility', pct: 30 },
-            { name: 'SI 563 — Game Theory', pct: 22 },
-            { name: 'SI 649 — Information Visualization', pct: 20 },
-            { name: 'SI 511 — Special Topics', pct: 18 },
+            { name: 'SI 564 — SQL & Databases', pct: 69 },
+            { name: 'SI 670 — Applied Machine Learning', pct: 63 },
+            { name: 'SI 649 — Information Visualization', pct: 58 },
+            { name: 'SI 664 — Database Application Design', pct: 58 },
+            { name: 'SI 650 — Information Retrieval', pct: 54 },
+            { name: 'SI 630 — Natural Language Processing', pct: 40 },
+            { name: 'SI 539 — Web Design: Responsiveness & Accessibility', pct: 37 },
           ],
-          outside: ['ENTR 500 — Intro to Innovation', 'EECS 545 — Machine Learning', 'STATS 503 — Statistical ML', 'ENTR 560 — Project Mgmt & Consulting']
+          outside: ['ENTR 500 — Intro to Innovation', 'ENTR 560 — Project Mgmt & Consulting', 'EECS 545 — Machine Learning', 'STATS 503 / STATS 513 — Statistical ML']
         },
         ux: {
           title: 'UX Research & Design',
-          highlight: 'UX is the largest and most exploratory track — students here are the most likely of any pathway to take courses outside UMSI.',
-          desc: 'The largest and most exploratory track. UX students spread across a wide range of electives and are the most likely to take courses outside UMSI.',
-          tip: 'UX students have a wide range of interests — if you\'re in UX, look through the electives taken by past students in all tracks, not just UX. For example, SI 564 SQL & Databases is popular across multiple tracks, and SI 631 Agile Software Development is a common pick for both UX and UCAD students.',
+          highlight: 'UX is the largest track in the program — and also the most spread out. No single elective dominates, which reflects how varied UX students\' interests and career goals are.',
+          desc: 'The largest and most exploratory track. Elective patterns have shifted over five years — SI 612 and SI 559 were dominant early on, while SI 511 and SI 611 have become the top picks in recent cohorts.',
+          tip: 'UX students have the widest range of elective choices in the program. If you\'re feeling overwhelmed, start with what aligns with your career direction — research-focused students tend toward SI 682 and SI 538, while those interested in technical skills often pick up SI 504 or SI 564.',
           electives: [
-            { name: 'SI 511 — Special Topics', pct: 62 },
+            { name: 'SI 612 — IoT Interaction Design', pct: 56 },
+            { name: 'SI 511 — Special Topics', pct: 55 },
+            { name: 'SI 559 — Intro to AR/VR Application Design', pct: 46 },
             { name: 'SI 611 — Special Topics in Information', pct: 42 },
-            { name: 'SI 594 — Automotive UX', pct: 30 },
-            { name: 'SI 504 — Servers, Shell & Git', pct: 20 },
-            { name: 'SI 538 — Citizen Interaction Design', pct: 16 },
-            { name: 'SI 564 — SQL & Databases', pct: 12 },
-            { name: 'SI 579 — Building Interactive Applications', pct: 12 },
+            { name: 'SI 616 — Advanced Topics in Graphic Design', pct: 36 },
+            { name: 'SI 658 — Information Architecture', pct: 33 },
+            { name: 'SI 552 — Introduction to Accessibility', pct: 31 },
           ],
           outside: ['ENTR 500 — Intro to Innovation', 'ENTR 560 — Project Mgmt & Consulting', 'ENTR 550 — Interpersonal Skills', 'TO/IOE 548 — Integrated Product Dev']
         },
         ucad: {
           title: 'User-Centered Agile Development',
-          highlight: 'UCAD has the most eclectic elective profile of any track — students blend SQL, agile development, programming, and AR/VR into very individualized plans.',
-          desc: 'The most eclectic elective profile — a blend of technical, creative, and interdisciplinary picks. Note: small cohort, so read these as directional.',
-          tip: 'UCAD is a small cohort, which means you have more flexibility than most. Use that to your advantage — students here build some of the most individualized plans in the program. Talk to your advisor early about which selectives to prioritize. Past UCAD students have combined technical skills with creative design — look for courses that bridge these areas, like SI 564 SQL & Databases or SI 631 Agile Software Development.',
+          highlight: 'UCAD students consistently blend technical and design courses — SQL, programming, graphic design, and agile development all appear in the top picks every year.',
+          desc: 'A blend of technical and creative electives. UCAD is a smaller cohort, so percentages reflect strong personal choice — students here build some of the most individualized plans in the program.',
+          tip: 'UCAD is a small cohort, which gives you more flexibility than most. SI 564, SI 507, and SI 631 are a strong technical core that many past students have built around. If you\'re leaning more creative, SI 520 and SI 612 are consistent picks too.',
           electives: [
-            { name: 'SI 564 — SQL & Databases', pct: 50 },
-            { name: 'SI 631 — Agile Software Development', pct: 46 },
-            { name: 'SI 511 — Special Topics', pct: 44 },
-            { name: 'SI 507 — Intermediate Programming', pct: 44 },
-            { name: 'SI 679 — Back-end Development', pct: 38 },
-            { name: 'SI 559 — Intro to AR/VR', pct: 30 },
-            { name: 'SI 658 — Information Architecture', pct: 28 },
+            { name: 'SI 520 — Graphic Design & Visual Communications', pct: 45 },
+            { name: 'SI 564 — SQL & Databases', pct: 43 },
+            { name: 'SI 511 — Special Topics', pct: 43 },
+            { name: 'SI 507 — Intermediate Programming', pct: 42 },
+            { name: 'SI 612 — IoT Interaction Design', pct: 42 },
+            { name: 'SI 631 — Agile Software Development', pct: 37 },
+            { name: 'SI 559 — Intro to AR/VR Application Design', pct: 37 },
           ],
-          outside: ['ENTR 560 — Project Mgmt & Consulting', 'ENTR 599 — Special Topics', 'UARTS 560 — ArtsEng Project', 'EDUC courses — Educational Technology']
+          outside: ['ENTR 560 — Project Mgmt & Consulting', 'ENTR 500 — Intro to Innovation', 'UARTS 560 — ArtsEng Project', 'EDUC 618 — XR for Learning']
         },
         lakes: {
           title: 'LAKES',
-          highlight: 'LAKES is the most distinct track in the program — but nearly 30% of students still take SI 504 Servers, Shell & Git, showing growing interest in technical foundations.',
-          desc: 'The most distinct track — electives reflect a strong humanities and archives foundation, with growing interest in technical and accessibility courses.',
-          tip: 'LAKES students sometimes feel like the odd ones out in a tech-heavy school, but the data shows you\'re actively supplementing with technical skills — and that makes you more versatile. SI 504 and SI 519 are great early picks if you haven\'t taken them yet.',
+          highlight: 'SI 623 Research Methods and SI 632 Appraisal & Collection Development have been taken by over 60% of LAKES students — the highest rates of any elective across all tracks.',
+          desc: 'The most distinct track — electives reflect a strong archives and collections foundation. SI 519 is the only course that appears consistently across all five cohorts.',
+          tip: 'LAKES students sometimes feel like the odd ones out in a tech-heavy school, but the data shows you\'re actively supplementing with technical and legal skills. SI 519 Intellectual Property & Information Law is the most consistent pick across all five years — a great early choice regardless of your sub-focus.',
           electives: [
-            { name: 'SI 504 — Servers, Shell & Git', pct: 30 },
-            { name: 'SI 519 — Intellectual Property & Information Law', pct: 30 },
-            { name: 'SI 552 — Introduction to Accessibility', pct: 28 },
-            { name: 'SI 559 — Intro to AR/VR', pct: 25 },
-            { name: 'SI 529 — Online Communities', pct: 16 },
-            { name: 'SI 511 — Special Topics', pct: 14 },
-            { name: 'SI 540 — Privacy in Information Technology', pct: 12 },
+            { name: 'SI 623 — Research Methods for Information Professionals', pct: 65 },
+            { name: 'SI 632 — Appraisal & Collection Development', pct: 61 },
+            { name: 'SI 633 — Assessment in Cultural Institutions', pct: 56 },
+            { name: 'SI 519 — Intellectual Property & Information Law', pct: 39 },
+            { name: 'SI 585 — Scholarly Communication', pct: 38 },
+            { name: 'SI 530 — Principles in Management', pct: 36 },
+            { name: 'SI 504 — Servers, Shell & Git', pct: 36 },
           ],
-          outside: ['ENTR 500 — Intro to Innovation', 'MUSEUMS 498 — Museums & Society', 'ANTHRARC 497 — Museum Anthropology', 'HISTART / MUSICOL courses']
+          outside: ['ENTR 500 — Intro to Innovation', 'ENTR 550 — Interpersonal Skills', 'MUSEUMS 498 — Museums & Society', 'ANTHRARC 497 — Museum Anthropology']
         }
       };
 
@@ -618,7 +604,6 @@
       document.querySelectorAll('.view-nav button').forEach(b => b.classList.remove('active'));
       document.getElementById('view-' + view).classList.add('active');
       btn.classList.add('active');
-      if (view === 'admin') renderAdminCourses();
     }
     const allCourses = [
   { code: 'SI 311', name: 'Special Topics in Information', tracks: ['ucad', 'ux'] },
@@ -628,7 +613,7 @@
   { code: 'SI 507', name: 'Intermediate Programming', tracks: ['lakes', 'ucad', 'ux'] },
   { code: 'SI 510', name: 'Information Ethics', tracks: ['bda', 'ucad', 'ux'] },
   { code: 'SI 511', name: 'Special Topics', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
-  { code: 'SI 512', name: 'Research Experience Development Program (REDP)', tracks: ['bda', 'lakes', 'ucad', 'ux'] },,
+  { code: 'SI 512', name: 'Research Experience Development Program (REDP)', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
   { code: 'SI 515', name: 'Motion Capture for Interaction Design', tracks: ['ucad', 'ux'] },
   { code: 'SI 519', name: 'Intellectual Property & Information Law', tracks: ['bda', 'lakes', 'ucad', 'ux'] },
   { code: 'SI 520', name: 'Graphic Design & Visual Communications', tracks: ['bda', 'lakes', 'ucad'] },
@@ -763,190 +748,6 @@
 
     filterCourses('all');
 
-    // Courses to always exclude
-    const ALWAYS_EXCLUDE = new Set([
-      '500','501','505','506','681','690','699','697','698'
-    ]);
-
-    // Required courses per track (excluded from elective analysis)
-    // ── TO ADD A NEW TRACK: add required course numbers here ──────
-    // These courses will be excluded from the elective analysis
-    const TRACK_REQUIRED = {
-      bda:   new Set(['507','544','568','602','618','670','671']),
-      ux:    new Set(['520','539','582','588','622']),
-      ucad:  new Set(['579','664','669','539','582','588','622']),
-      lakes: new Set(['510','547','566','666','667','676','580','647'])
-    };
-
-    function handleCSV(file) {
-      if (!file) return;
-      document.getElementById('upload-text').textContent = '⏳ Reading ' + file.name + '...';
-
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const text = e.target.result;
-        const lines = text.split('\n');
-        const headers = lines[0].split(',').map(h => h.trim().replace(/"/g,''));
-
-        // Find column indices
-        const subjectIdx = headers.findIndex(h => h === 'Subject');
-        const catalogIdx = headers.findIndex(h => h.includes('Catalog'));
-        const planIdx    = headers.findIndex(h => h.includes('Acad Plan Descr'));
-        const descrIdx   = headers.findIndex(h => h.includes('Crse Descr') || h.includes('Crse_Descr'));
-
-        if (subjectIdx === -1 || catalogIdx === -1 || planIdx === -1) {
-          document.getElementById('upload-text').textContent = '❌ Could not read file — make sure it has Subject, Catalog Nbr, and Acad Plan Descr columns.';
-          return;
-        }
-
-        // Parse rows
-        const newCourseMap = {};
-        for (let i = 1; i < lines.length; i++) {
-          const cols = lines[i].split(',').map(c => c.trim().replace(/"/g,''));
-          if (cols.length < 3) continue;
-
-          const subject = cols[subjectIdx];
-          const catalog = cols[catalogIdx];
-          const plan    = cols[planIdx];
-          const descr   = descrIdx > -1 ? cols[descrIdx] : '';
-
-          if (subject !== 'SI') continue;
-          if (ALWAYS_EXCLUDE.has(catalog)) continue;
-
-          const track = detectTrack(plan);
-          if (!track) continue;
-          if (TRACK_REQUIRED[track] && TRACK_REQUIRED[track].has(catalog)) continue;
-
-          const code = 'SI ' + catalog;
-          if (!newCourseMap[code]) newCourseMap[code] = { name: descr, tracks: new Set() };
-          newCourseMap[code].tracks.add(track);
-        }
-
-        // Merge with existing allCourses
-        let addedCount = 0;
-        let updatedCount = 0;
-        const changes = [];
-
-        for (const [code, info] of Object.entries(newCourseMap)) {
-          const existing = allCourses.find(c => c.code === code);
-          const newTracks = [...info.tracks];
-
-          if (!existing) {
-            // Brand new course
-            allCourses.push({ code, name: info.name || code, tracks: newTracks });
-            addedCount++;
-            changes.push({ code, name: info.name || code, type: 'new', tracks: newTracks });
-          } else {
-            // Check if any new tracks to add
-            const added = [];
-            newTracks.forEach(t => {
-              if (!existing.tracks.includes(t)) {
-                existing.tracks.push(t);
-                existing.tracks.sort();
-                added.push(t);
-              }
-            });
-            if (added.length > 0) {
-              updatedCount++;
-              changes.push({ code, name: existing.name, type: 'updated', tracks: added });
-            }
-          }
-        }
-
-        // Sort allCourses by course number
-        allCourses.sort((a, b) => parseInt(a.code.split(' ')[1]) - parseInt(b.code.split(' ')[1]));
-
-        // Show results
-        document.getElementById('upload-text').textContent = '✅ ' + file.name + ' uploaded successfully';
-        document.getElementById('upload-status').style.display = 'block';
-        document.getElementById('status-message').textContent =
-          `Found ${Object.keys(newCourseMap).length} electives. Added ${addedCount} new courses, updated tracks for ${updatedCount} existing courses.`;
-
-        let previewHTML = '';
-        if (changes.length > 0) {
-          previewHTML = '<div style="margin-top:1rem"><div class="section-label">Changes from this upload</div>';
-          changes.forEach(c => {
-            previewHTML += `<div class="new-course-row">
-              <span>${c.code} — ${c.name}</span>
-              <span class="badge ${c.type}">${c.type === 'new' ? '+ new' : '+ ' + c.tracks.join(', ')}</span>
-            </div>`;
-          });
-          previewHTML += '</div>';
-        } else {
-          previewHTML = '<div style="font-size:14px;color:#6B6A65;margin-top:1rem">No new courses or track changes found — the directory is already up to date.</div>';
-        }
-        document.getElementById('new-courses-preview').innerHTML = previewHTML;
-
-        // Re-render course list
-        renderAdminCourses();
-        filterCourses(currentFilter);
-      };
-      reader.readAsText(file);
-    }
-
-    function renderAdminCourses() {
-      const search = (document.getElementById('admin-search')?.value || '').toLowerCase();
-      const list = document.getElementById('admin-course-list');
-      if (!list) return;
-
-      const filtered = allCourses.filter(c =>
-        c.code.toLowerCase().includes(search) ||
-        c.name.toLowerCase().includes(search)
-      );
-
-      list.innerHTML = filtered.map(c => `
-        <div class="admin-course-row">
-          <div class="admin-course-left">
-            <span style="font-size:11px;font-family:monospace;color:#6B6A65">${c.code}</span>
-            <span id="name-${c.code.replace(' ','-')}" style="font-size:13px">${c.name}</span>
-          </div>
-          <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;max-width:200px">
-            ${c.tracks.map(t => `<span class="track-dot ${t}">${t.toUpperCase()}</span>`).join('')}
-          </div>
-          <button class="edit-name-btn" onclick="editCourseName('${c.code}')">Edit</button>
-        </div>
-      `).join('');
-    }
-
-    function editCourseName(code) {
-      const course = allCourses.find(c => c.code === code);
-      if (!course) return;
-      const safeId = code.replace(' ', '-');
-      const span = document.getElementById('name-' + safeId);
-      if (!span) return;
-
-      const input = document.createElement('input');
-      input.className = 'admin-edit-input';
-      input.value = course.name;
-      span.replaceWith(input);
-      input.focus();
-      input.select();
-
-      function save() {
-        const newName = input.value.trim() || course.name;
-        course.name = newName;
-        renderAdminCourses();
-        filterCourses(currentFilter);
-      }
-
-      input.addEventListener('keydown', e => {
-        if (e.key === 'Enter') save();
-        if (e.key === 'Escape') renderAdminCourses();
-      });
-      input.addEventListener('blur', save);
-    }
-
-    function exportUpdatedArray() {
-      const lines = allCourses.map(c => {
-        const tracks = c.tracks.map(t => `'${t}'`).join(', ');
-        const name = c.name.replace(/'/g, "\\'");
-        return `  { code: '${c.code}', name: '${name}', tracks: [${tracks}] },`;
-      });
-      const text = 'const allCourses = [\n' + lines.join('\n') + '\n];';
-      navigator.clipboard.writeText(text).then(() => {
-        alert('Copied! Paste it into your HTML file to save changes permanently.');
-      });
-    }
 
   </script>
 
