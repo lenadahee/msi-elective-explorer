@@ -384,118 +384,6 @@
       padding: 1rem 0;
       text-align: center;
     }
-    #upload-area {
-      margin: 1.25rem 0;
-    }
-
-    #upload-area input[type="file"] {
-      display: none;
-    }
-
-    #upload-label {
-      display: block;
-      border: 2px dashed #E2E0D8;
-      border-radius: 12px;
-      padding: 2rem;
-      text-align: center;
-      cursor: pointer;
-      font-size: 14px;
-      color: #6B6A65;
-      transition: all .15s;
-    }
-
-    #upload-label:hover {
-      border-color: #378ADD;
-      background: #E6F1FB;
-      color: #0C447C;
-    }
-
-    #status-message {
-      font-size: 14px;
-      color: #1A1A18;
-      margin-bottom: 1rem;
-      padding: 1rem;
-      background: #EAF3DE;
-      border-radius: 8px;
-      border-left: 3px solid #639922;
-      color: #27500A;
-    }
-
-    .new-course-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 0;
-      border-bottom: 1px solid #F7F6F2;
-      font-size: 13px;
-    }
-
-    .new-course-row .badge {
-      font-size: 11px;
-      padding: 2px 8px;
-      border-radius: 999px;
-      background: #EAF3DE;
-      color: #27500A;
-    }
-
-    .new-course-row .badge.updated {
-      background: #E6F1FB;
-      color: #0C447C;
-    }
-
-    .export-btn {
-      background: #1A1A18;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 10px 20px;
-      font-size: 13px;
-      font-family: 'DM Sans', sans-serif;
-      cursor: pointer;
-      font-weight: 500;
-    }
-
-    .export-btn:hover { background: #333; }
-
-    .admin-course-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 0;
-      border-bottom: 1px solid #F7F6F2;
-      gap: 1rem;
-    }
-
-    .admin-course-left {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      flex: 1;
-    }
-
-    .admin-edit-input {
-      font-size: 13px;
-      font-family: 'DM Sans', sans-serif;
-      border: 1.5px solid #378ADD;
-      border-radius: 4px;
-      padding: 3px 8px;
-      width: 100%;
-      outline: none;
-    }
-
-    .edit-name-btn {
-      font-size: 11px;
-      padding: 3px 10px;
-      border-radius: 999px;
-      border: 1px solid #E2E0D8;
-      background: white;
-      cursor: pointer;
-      color: #6B6A65;
-      font-family: 'DM Sans', sans-serif;
-      white-space: nowrap;
-    }
-
-    .edit-name-btn:hover { border-color: #aaa; color: #1A1A18; }
   </style>
 
 </head>
@@ -515,7 +403,6 @@
       <button onclick="switchView('compare', this)">Compare Tracks</button>
       <button onclick="switchView('outside', this)">Outside UMSI</button>
       <button onclick="switchView('courses', this)">All Courses</button>
-      <button onclick="switchView('admin', this)">⚙ Admin</button>
     </div>
 
     <div id="view-explore" class="view active">
@@ -596,18 +483,6 @@
         <div id="course-list"></div>
       </div>
     </div>
-    <div id="view-admin" class="view">
-      <div class="card">
-        <h2>Admin Panel</h2>
-        <p>Upload a new cohort CSV to update the course directory. The file should follow the same format as the 2025–2026 registrar export, with an <strong>Acad Plan Descr</strong> column for track and <strong>Subject</strong> + <strong>Catalog Nbr</strong> columns for course codes.</p>
-
-        <div id="upload-area">
-          <input type="file" id="csv-upload" accept=".csv" onchange="handleCSV(this.files[0])">
-          <label for="csv-upload" id="upload-label">
-            <div id="upload-text">📂 Click to upload CSV or drag and drop</div>
-          </label>
-        </div>
-
         <div id="upload-status" style="display:none">
           <div id="status-message"></div>
           <div id="new-courses-preview"></div>
@@ -739,13 +614,6 @@
     }
 
     function switchView(view, btn) {
-        if (view === 'admin') {
-        const password = prompt('Enter admin password:');
-        if (password !== 'goblue!') {
-          alert('Incorrect password.');
-          return;
-        }
-      }
       document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
       document.querySelectorAll('.view-nav button').forEach(b => b.classList.remove('active'));
       document.getElementById('view-' + view).classList.add('active');
@@ -894,20 +762,6 @@
     }
 
     filterCourses('all');
-    // Track detection from Acad Plan Descr
-    // ── TO ADD A NEW TRACK: add a new condition here ──────────────
-    // Check the registrar CSV's "Acad Plan Descr" column for exact wording
-    function detectTrack(planDescr) {
-      if (!planDescr) return null;
-      const p = planDescr.toLowerCase();
-      if (p.includes('big data')) return 'bda';
-      if (p.includes('user experience')) return 'ux';
-      if (p.includes('agile')) return 'ucad';
-      if (p.includes('connect') || p.includes('digital curation') ||
-          p.includes('managing') || p.includes('sustain') ||
-          p.includes('library') || p.includes('lakes')) return 'lakes';
-      return null;
-    }
 
     // Courses to always exclude
     const ALWAYS_EXCLUDE = new Set([
