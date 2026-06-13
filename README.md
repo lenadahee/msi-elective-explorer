@@ -1,7 +1,8 @@
 ## **MSI Elective Explorer**
 *Live Tool:* [MSI Elective Explorer](https://msi-elective-explorer.netlify.app)
 
-## **Current Version Built By:** Lena Choi, MSI Peer Advisor 2025-2026
+## **Current Version Built By:** 
+Lena Choi, MSI Peer Advisor 2025-2026
 **Last Updated:** June 2026
 
 **Contact:** lenachoi@umich.edu // choi.lena98@gmail.com
@@ -18,12 +19,12 @@ It was built using five years of graduating cohort data (2022–2026) and lives 
 
 ## **Where to Find Everything**
 This folder (also known as a "repository") contains all the files that make the tool work:
-- ``` index.html``` = Actual Tool/Website. This is the only tool needed to edit
+- ``` index.html``` = Actual Tool/Website (Only tool that needs to be edited)
 - ``` README.md``` = This Document
 - ```msi_electives_2022.ipynb``` - ```msi_electives_2026.ipynb``` = Data Analysis Files for Each Graduating Year
 - ```csv files``` = Raw Student Enrollment Data from the Registrar
 
-*Note: There is no need to open or understand most of these files. The only file that will need to be edited is index.html, and this README provides a walkthrough of exactly how to do that. Everything else. is for reference or future data analysis.*
+*Note: There is no need to open or understand most of these files. The only file that will need to be edited is index.html, and this README provides a walkthrough of exactly how to do that. Everything else is for reference or future data analysis.*
 
 ## **How to Access the Live Tool**
 The tool is hosted at a public link through a free service called Netlify. Anyone with the link can open it in a browser — no login required.
@@ -33,6 +34,7 @@ The tool is hosted at a public link through a free service called Netlify. Anyon
 ## **Updating the Tool Each Year**
 When a new cohort graduates, the tool should be updated to include their data. Here is the full process, step by step. No coding experience required.
 *NOTE:* This process is two-fold: (1) Run the data analysis & (2) Update the website
+
 *When To Do This:* Ideally, once per year, after the Winter term graduating cohort data is available from the Registrar (most likely May or June)
 
 ### **PART 1: ANALYZE THE NEW COHORT'S DATA**
